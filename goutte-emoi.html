@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Goutte Émoi — Chocolaterie & Salon de Thé, Labenne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+:root{
+  --cream:#F6EFE1;
+  --cream-deep:#EBDFC7;
+  --choc:#2D1B10;
+  --choc-soft:#4A2E1B;
+  --choc-mid:#8A6440;
+  --sage:#8B9A6C;
+  --sage-deep:#5C6B45;
+  --sage-pale:#DCE3CB;
+  --gold:#B08B52;
+  --r-pill:999px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--cream);color:var(--choc);
+  font-family:'Jost',sans-serif;font-weight:400;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity:.05;mix-blend-mode:multiply;
+}
+img{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;letter-spacing:-.01em}
+.italic{font-style:italic;font-weight:500}
+
+/* ═══ DEMO BANNER ═══ */
+.demo-banner{position:fixed;top:0;left:0;right:0;z-index:9999;
+  background:var(--choc);color:var(--cream);text-align:center;
+  font-family:'Jost',sans-serif;font-size:.62rem;letter-spacing:.32em;
+  text-transform:uppercase;padding:8px;font-weight:500}
+
+/* ═══ NAV ═══ */
+nav{position:fixed;top:34px;left:0;right:0;z-index:900;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:26px 56px;transition:background .4s ease,padding .4s ease,border-color .4s}
+nav.solid{background:rgba(246,239,225,.92);backdrop-filter:blur(14px);
+  padding:16px 56px;border-bottom:1px solid rgba(45,27,16,.08)}
+.logo{font-family:'Fraunces',serif;font-weight:600;font-size:1.5rem;
+  text-decoration:none;color:var(--choc);letter-spacing:-.01em}
+.logo em{font-style:italic;color:var(--sage-deep);font-weight:500}
+.nav-links{display:flex;gap:38px;list-style:none}
+.nav-links a{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;
+  text-decoration:none;color:var(--choc-soft);opacity:.7;transition:opacity .25s,color .25s;
+  position:relative;padding-bottom:3px}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:0;width:0;height:1px;
+  background:var(--sage-deep);transition:width .3s ease}
+.nav-links a:hover{opacity:1}
+.nav-links a:hover::after{width:100%}
+.nav-cta{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;
+  background:var(--choc);color:var(--cream);padding:12px 26px;
+  border-radius:var(--r-pill);text-decoration:none;transition:background .3s,transform .3s;
+  display:inline-block}
+.nav-cta:hover{background:var(--sage-deep);transform:translateY(-2px)}
+@media(max-width:900px){nav{padding:18px 22px}nav.solid{padding:12px 22px}.nav-links{display:none}}
+
+/* ═══ HERO — SPLIT ═══ */
+.hero{position:relative;min-height:100dvh;display:grid;
+  grid-template-columns:1.05fr .95fr;padding-top:70px;background:var(--cream)}
+.hero-left{display:flex;flex-direction:column;justify-content:center;
+  padding:60px 60px 90px 64px}
+.hero-eyebrow{font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--sage-deep);margin-bottom:26px;display:flex;align-items:center;gap:10px}
+.hero-eyebrow::before{content:'';width:26px;height:1px;background:var(--sage-deep)}
+.hero-title{font-size:clamp(38px,4.6vw,68px);line-height:1.06;color:var(--choc);
+  max-width:11.5em}
+.hero-title .line{overflow:hidden;display:block}
+.hero-title .line span{display:inline-block;transform:translateY(110%)}
+.hero-sub{font-size:1rem;line-height:1.75;color:var(--choc-soft);max-width:34em;
+  margin:30px 0 40px;opacity:.85}
+.hero-actions{display:flex;align-items:center;gap:28px}
+.btn-solid{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;
+  background:var(--choc);color:var(--cream);padding:17px 38px;border-radius:var(--r-pill);
+  text-decoration:none;display:inline-block;position:relative;overflow:hidden;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.btn-solid span{position:relative;z-index:1}
+.btn-solid::before{content:'';position:absolute;inset:0;background:var(--sage-deep);
+  transform:translateY(101%);transition:transform .4s cubic-bezier(.65,0,.35,1)}
+.btn-solid:hover::before{transform:translateY(0)}
+.btn-ghost-link{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;
+  text-decoration:none;color:var(--choc);border-bottom:1px solid rgba(45,27,16,.35);
+  padding-bottom:3px;transition:border-color .25s,color .25s}
+.btn-ghost-link:hover{color:var(--sage-deep);border-color:var(--sage-deep)}
+
+.hero-right{position:relative;background:var(--choc);overflow:hidden}
+.hero-photo{position:absolute;inset:0;
+  background:url('https://images.unsplash.com/photo-1511381939415-e44015466834?w=1200&auto=format&fit=crop&q=85') center/cover;
+  filter:sepia(20%) saturate(85%) brightness(.72) contrast(1.05)}
+.hero-veil{position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(45,27,16,.15),rgba(45,27,16,.55) 85%)}
+.hero-dial-badge{position:absolute;left:-56px;bottom:56px;z-index:2;
+  background:var(--cream);border-radius:50%;width:170px;height:170px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 18px 40px rgba(45,27,16,.28)}
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;padding-top:66px}
+  .hero-right{height:52vh;order:-1}
+  .hero-left{padding:44px 24px 60px}
+  .hero-dial-badge{width:120px;height:120px;left:16px;bottom:-40px}
+}
+
+/* ═══ DRIP DIVIDER ═══ */
+.drip-wrap{position:relative;background:var(--cream);line-height:0}
+.drip-wrap.flip svg{transform:scaleY(-1)}
+.drip-wrap svg path{fill:none;stroke:var(--choc-soft);stroke-width:2;opacity:.4}
+
+/* ═══ MANIFESTE ═══ */
+.manifeste{background:var(--cream);padding:70px 64px 130px;
+  display:grid;grid-template-columns:.42fr .58fr;gap:70px;align-items:start}
+.man-label{font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--sage-deep);position:sticky;top:150px}
+.man-text{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(24px,2.7vw,38px);
+  line-height:1.5;color:var(--choc)}
+.man-text .accent{color:var(--sage-deep);font-style:italic;font-weight:500}
+.man-foot{margin-top:36px;font-size:.92rem;line-height:1.8;color:var(--choc-soft);
+  max-width:38em;font-family:'Jost',sans-serif;opacity:.85}
+@media(max-width:900px){.manifeste{grid-template-columns:1fr;padding:56px 24px 80px;gap:24px}
+  .man-label{position:static}}
+
+/* ═══ COLLECTION ═══ */
+.collection{background:var(--choc);color:var(--cream);padding:100px 64px}
+.col-head{display:flex;justify-content:space-between;align-items:flex-end;
+  margin-bottom:64px;flex-wrap:wrap;gap:20px}
+.col-eyebrow{font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--sage);margin-bottom:16px}
+.col-title{font-size:clamp(32px,4.4vw,58px);color:var(--cream);line-height:1.05}
+.col-date{font-size:.72rem;letter-spacing:.08em;color:rgba(246,239,225,.5);
+  text-align:right;line-height:1.7}
+.col-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:rgba(246,239,225,.08)}
+.col-card{background:var(--choc);padding:0;position:relative;overflow:hidden}
+.col-photo{position:relative;height:230px;overflow:hidden}
+.col-photo img{width:100%;height:100%;object-fit:cover;
+  filter:sepia(12%) saturate(95%) brightness(.92);
+  transition:transform .8s cubic-bezier(.16,1,.3,1),filter .5s}
+.col-card:hover .col-photo img{transform:scale(1.08);filter:sepia(0%) brightness(1)}
+.col-tag{position:absolute;top:16px;left:16px;background:var(--sage);color:var(--choc);
+  font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;
+  padding:5px 14px;border-radius:var(--r-pill)}
+.col-body{padding:26px 24px 30px}
+.col-name{font-family:'Fraunces',serif;font-weight:600;font-size:1.3rem;margin-bottom:8px}
+.col-desc{font-size:.8rem;line-height:1.7;color:rgba(246,239,225,.6);margin-bottom:18px;min-height:3.4em}
+.col-price{font-size:.82rem;letter-spacing:.06em;color:var(--sage);font-weight:500}
+@media(max-width:1100px){.col-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){.collection{padding:70px 20px}.col-grid{grid-template-columns:1fr}}
+
+/* ═══ CYCLE DES SAISONS — SIGNATURE ═══ */
+.cycle{background:var(--cream-deep);padding:120px 64px;
+  display:grid;grid-template-columns:.5fr .5fr;align-items:center;gap:60px}
+.cycle-text .man-label{position:static;margin-bottom:22px}
+.cycle-title{font-size:clamp(30px,3.6vw,46px);line-height:1.15;margin-bottom:24px}
+.cycle-body{font-size:.95rem;line-height:1.85;color:var(--choc-soft);max-width:32em;opacity:.85}
+.dial-stage{display:flex;justify-content:center;align-items:center;position:relative}
+.dial-svg{width:min(380px,90%);height:auto}
+.dial-ring{fill:none;stroke:rgba(45,27,16,.12);stroke-width:1}
+.dial-quarter{fill:none;stroke-width:1.4;transition:stroke .4s}
+.dial-needle{transform-origin:200px 200px}
+.dial-center{fill:var(--choc)}
+.dial-label{font-family:'Jost',sans-serif;font-size:13px;letter-spacing:.12em;
+  fill:var(--choc-soft);text-anchor:middle}
+.dial-label.active{fill:var(--sage-deep);font-weight:500}
+.dial-caption{position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);
+  font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage-deep);
+  white-space:nowrap}
+@media(max-width:900px){.cycle{grid-template-columns:1fr;padding:80px 24px;gap:40px}}
+
+/* ═══ SALON DE THÉ ═══ */
+.salon{background:var(--cream);padding:0;display:grid;grid-template-columns:.9fr 1.1fr}
+.salon-photo{position:relative;min-height:560px;overflow:hidden}
+.salon-photo img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;
+  filter:sepia(15%) saturate(90%) brightness(.95)}
+.salon-content{padding:90px 64px;display:flex;flex-direction:column;justify-content:center}
+.salon-title{font-size:clamp(30px,3.8vw,50px);line-height:1.12;margin-bottom:26px;max-width:11em}
+.salon-body{font-size:.95rem;line-height:1.85;color:var(--choc-soft);max-width:34em;
+  margin-bottom:36px;opacity:.85}
+.salon-infos{display:flex;gap:56px;margin-bottom:42px;flex-wrap:wrap}
+.salon-info-label{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--sage-deep);margin-bottom:8px}
+.salon-info-val{font-size:.92rem;color:var(--choc);line-height:1.6}
+@media(max-width:900px){.salon{grid-template-columns:1fr}.salon-photo{min-height:340px}
+  .salon-content{padding:56px 24px}}
+
+/* ═══ FOOTER ═══ */
+footer{background:var(--choc);color:var(--cream);padding:64px 64px 34px;
+  display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:40px}
+.f-logo{font-family:'Fraunces',serif;font-weight:600;font-size:1.6rem;margin-bottom:14px}
+.f-logo em{font-style:italic;color:var(--sage);font-weight:500}
+.f-tag{font-size:.82rem;line-height:1.75;color:rgba(246,239,225,.55);max-width:26em}
+.f-col-label{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--sage);margin-bottom:16px}
+.f-line{font-size:.85rem;line-height:2;color:rgba(246,239,225,.75)}
+.f-line a{text-decoration:none;color:rgba(246,239,225,.75);transition:color .25s;
+  border-bottom:1px solid transparent}
+.f-line a:hover{color:var(--sage)}
+.f-bottom{grid-column:1/-1;margin-top:50px;padding-top:26px;
+  border-top:1px solid rgba(246,239,225,.1);
+  font-size:.66rem;letter-spacing:.1em;color:rgba(246,239,225,.35);
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+@media(max-width:900px){footer{padding:50px 24px 26px;grid-template-columns:1fr 1fr}
+  .f-logo,.f-tag{grid-column:1/-1}}
+
+/* fade helpers */
+.reveal{opacity:0;transform:translateY(26px)}
+</style>
+</head>
+<body>
+
+<div class="demo-banner">Site Démo</div>
+
+<nav id="nav">
+  <a class="logo" href="#top">Goutte <em>Émoi</em></a>
+  <ul class="nav-links">
+    <li><a href="#manifeste">Manifeste</a></li>
+    <li><a href="#collection">Collection</a></li>
+    <li><a href="#salon">Salon de Thé</a></li>
+    <li><a href="#footer">Contact</a></li>
+  </ul>
+  <a href="#salon" class="nav-cta">Réserver</a>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="top">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Chocolaterie d'art &amp; salon de thé — Labenne</div>
+    <h1 class="hero-title" id="hero-title">
+      <span class="line"><span>Goutte Émoi —</span></span>
+      <span class="line"><span class="italic">l'art éphémère</span></span>
+      <span class="line"><span>du chocolat</span></span>
+      <span class="line"><span>au fil des saisons.</span></span>
+    </h1>
+    <p class="hero-sub">Chaque saison réécrit nos collections. Le chocolat s'y accorde comme une matière vivante — cueillie dans le temps, façonnée à la main, jamais tout à fait la même deux fois.</p>
+    <div class="hero-actions">
+      <a href="#collection" class="btn-solid"><span>Découvrir la collection</span></a>
+      <a href="#salon" class="btn-ghost-link">Le salon de thé →</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-photo"></div>
+    <div class="hero-veil"></div>
+    <div class="hero-dial-badge" id="mini-dial-badge">
+      <svg viewBox="0 0 100 100" width="86" height="86">
+        <circle cx="50" cy="50" r="46" fill="none" stroke="#2D1B10" stroke-width="1" opacity=".25"/>
+        <path d="M50 50 L50 10" stroke="#5C6B45" stroke-width="2" stroke-linecap="round" id="mini-needle" style="transform-origin:50px 50px"/>
+        <circle cx="50" cy="50" r="3.5" fill="#2D1B10"/>
+        <text x="50" y="94" text-anchor="middle" font-family="Jost" font-size="7" letter-spacing="1.5" fill="#4A2E1B">ÉTÉ</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- drip divider -->
+<div class="drip-wrap">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="width:100%;height:60px;display:block">
+    <path id="drip1" d="M0,10 C120,40 240,-10 360,15 C480,40 600,0 720,20 C840,40 960,0 1080,18 C1200,36 1320,5 1440,15" />
+  </svg>
+</div>
+
+<!-- ═══ MANIFESTE ═══ -->
+<section class="manifeste" id="manifeste">
+  <div class="man-label reveal">// Le Manifeste</div>
+  <div>
+    <p class="man-text reveal">Nous ne fabriquons pas des chocolats. Nous <span class="accent">suivons</span> les saisons — leurs herbes, leurs fruits, leur lumière — et nous les traduisons, goutte après goutte, en pièces qui ne durent qu'un temps.</p>
+    <p class="man-foot reveal">À Labenne, entre pinède et océan, notre atelier travaille à la main de petites séries pensées comme des œuvres passagères. Ce qui compose la collection aujourd'hui aura changé dans trois mois — comme la sauge du jardin, comme la lumière sur les Landes.</p>
+  </div>
+</section>
+
+<div class="drip-wrap flip">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style="width:100%;height:60px;display:block">
+    <path id="drip2" d="M0,15 C140,-5 260,42 400,18 C520,0 640,38 760,16 C880,-4 1000,36 1140,14 C1260,0 1360,30 1440,10" />
+  </svg>
+</div>
+
+<!-- ═══ COLLECTION ═══ -->
+<section class="collection" id="collection">
+  <div class="col-head">
+    <div>
+      <div class="col-eyebrow reveal">// La Collection Éphémère</div>
+      <h2 class="col-title reveal">Saison <span class="italic">Été</span></h2>
+    </div>
+    <div class="col-date reveal">Aujourd'hui<br>1er juillet 2026<br>Pièces disponibles jusqu'à fin septembre</div>
+  </div>
+  <div class="col-grid">
+    <div class="col-card reveal">
+      <div class="col-photo">
+        <span class="col-tag">Nouveauté</span>
+        <img src="https://images.unsplash.com/photo-1481391319762-47dff72954d9?w=500&auto=format&fit=crop&q=85" alt="Ganache verveine"/>
+      </div>
+      <div class="col-body">
+        <div class="col-name">Verveine du Jardin</div>
+        <p class="col-desc">Ganache lactée infusée à la verveine fraîche cueillie le matin même, enrobée d'un chocolat blond.</p>
+        <div class="col-price">8,50 € / pièce</div>
+      </div>
+    </div>
+    <div class="col-card reveal">
+      <div class="col-photo">
+        <img src="https://images.unsplash.com/photo-1511381939415-e44015466834?w=500&auto=format&fit=crop&q=85" alt="Framboise basilic"/>
+      </div>
+      <div class="col-body">
+        <div class="col-name">Framboise &amp; Basilic</div>
+        <p class="col-desc">Cœur coulant de framboises des Landes relevé d'un trait de basilic, chocolat noir 70%.</p>
+        <div class="col-price">9,00 € / pièce</div>
+      </div>
+    </div>
+    <div class="col-card reveal">
+      <div class="col-photo">
+        <img src="https://images.unsplash.com/photo-1517705008128-361805f42e07?w=500&auto=format&fit=crop&q=85" alt="Citron confit"/>
+      </div>
+      <div class="col-body">
+        <div class="col-name">Citron de Menton Confit</div>
+        <p class="col-desc">Praliné citron-amande et zestes confits, sur une fine couche de chocolat au lait.</p>
+        <div class="col-price">8,80 € / pièce</div>
+      </div>
+    </div>
+    <div class="col-card reveal">
+      <div class="col-photo">
+        <span class="col-tag">Signature</span>
+        <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&auto=format&fit=crop&q=85" alt="Fleur de sel caramel"/>
+      </div>
+      <div class="col-body">
+        <div class="col-name">Fleur de Sel &amp; Caramel</div>
+        <p class="col-desc">Caramel tendre au beurre salé de la côte, chocolat noir 64%, éclats de fleur de sel.</p>
+        <div class="col-price">9,20 € / pièce</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CYCLE DES SAISONS — SIGNATURE ═══ -->
+<section class="cycle" id="cycle">
+  <div class="cycle-text">
+    <div class="man-label reveal">// Le Cycle</div>
+    <h2 class="cycle-title reveal">Une collection qui <span class="italic">tourne</span> avec l'année.</h2>
+    <p class="cycle-body reveal">Printemps, été, automne, hiver : chaque saison apporte sa propre palette d'ingrédients, et donc sa propre collection. Rien n'est figé — tout est appelé à revenir, transformé, quand la roue aura tourné.</p>
+  </div>
+  <div class="dial-stage">
+    <svg class="dial-svg" viewBox="0 0 400 400">
+      <circle class="dial-ring" cx="200" cy="200" r="150"/>
+      <circle class="dial-ring" cx="200" cy="200" r="110"/>
+      <g id="dial-needle" class="dial-needle">
+        <line x1="200" y1="200" x2="200" y2="58" stroke="#5C6B45" stroke-width="2.5" stroke-linecap="round"/>
+      </g>
+      <circle class="dial-center" cx="200" cy="200" r="6"/>
+      <text class="dial-label" id="lbl-print" x="200" y="46">PRINTEMPS</text>
+      <text class="dial-label active" id="lbl-ete" x="360" y="204">ÉTÉ</text>
+      <text class="dial-label" id="lbl-aut" x="200" y="368">AUTOMNE</text>
+      <text class="dial-label" id="lbl-hiv" x="40" y="204">HIVER</text>
+    </svg>
+    <div class="dial-caption">Actuellement — Été 2026</div>
+  </div>
+</section>
+
+<!-- ═══ SALON DE THÉ ═══ -->
+<section class="salon" id="salon">
+  <div class="salon-photo">
+    <img src="https://images.unsplash.com/photo-1571115177098-24ec42ed204d?w=900&auto=format&fit=crop&q=85" alt="Salon de thé"/>
+  </div>
+  <div class="salon-content">
+    <div class="man-label reveal">// Le Salon de Thé</div>
+    <h2 class="salon-title reveal">Une pause, entre deux <span class="italic">saisons.</span></h2>
+    <p class="salon-body reveal">Installez-vous près de la vitrine, à Labenne, pour un chocolat chaud d'exception, un thé rare ou une pâtisserie de saison. Le temps d'une pause, laissez le monde ralentir.</p>
+    <div class="salon-infos reveal">
+      <div>
+        <div class="salon-info-label">Adresse</div>
+        <div class="salon-info-val">Avenue Charles de Gaulle<br>40530 Labenne</div>
+      </div>
+      <div>
+        <div class="salon-info-label">Horaires</div>
+        <div class="salon-info-val">Mar – Sam · 9h30 – 19h<br>Dimanche · 9h30 – 13h</div>
+      </div>
+    </div>
+    <a href="tel:0600000000" class="btn-solid reveal" style="width:fit-content"><span>Réserver une table</span></a>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer id="footer">
+  <div>
+    <div class="f-logo">Goutte <em>Émoi</em></div>
+    <p class="f-tag">Chocolaterie artisanale &amp; salon de thé à Labenne. Collections éphémères, façonnées au rythme des saisons.</p>
+  </div>
+  <div>
+    <div class="f-col-label">Boutique</div>
+    <div class="f-line">Avenue Charles de Gaulle<br>40530 Labenne</div>
+    <div class="f-line">Mar – Sam · 9h30 – 19h<br>Dim · 9h30 – 13h</div>
+  </div>
+  <div>
+    <div class="f-col-label">Suivre</div>
+    <div class="f-line"><a href="#">Instagram</a></div>
+    <div class="f-line"><a href="tel:0600000000">06 00 00 00 00</a></div>
+  </div>
+  <div class="f-bottom">
+    <span>Goutte Émoi © 2026</span>
+    <span>Site Démo</span>
+  </div>
+</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* NAV solid on scroll */
+var nav=document.getElementById('nav');
+window.addEventListener('scroll',function(){
+  nav.classList.toggle('solid',window.scrollY>60);
+},{passive:true});
+
+if(reduceMotion){
+  gsap.set('.reveal',{opacity:1,y:0});
+  gsap.set('.hero-title .line span',{y:0});
+} else {
+
+  /* Hero title lines rise in */
+  gsap.to('.hero-title .line span',{
+    y:0,duration:1,ease:'expo.out',stagger:.11,delay:.3
+  });
+  gsap.from('.hero-eyebrow,.hero-sub,.hero-actions',{
+    opacity:0,y:16,duration:.9,ease:'power2.out',stagger:.12,delay:.9
+  });
+  gsap.from('.hero-right',{opacity:0,duration:1.2,ease:'power2.out',delay:.2});
+
+  /* Generic reveal-on-scroll for all .reveal elements */
+  document.querySelectorAll('.reveal').forEach(function(el){
+    gsap.to(el,{
+      opacity:1,y:0,duration:.9,ease:'power2.out',
+      scrollTrigger:{trigger:el,start:'top 88%'}
+    });
+  });
+
+  /* Collection cards stagger */
+  gsap.utils.toArray('.col-card').forEach(function(card,i){
+    gsap.to(card,{
+      opacity:1,y:0,duration:.8,ease:'power2.out',delay:i*0.06,
+      scrollTrigger:{trigger:'.col-grid',start:'top 80%'}
+    });
+  });
+
+  /* Drip dividers draw in like chocolate flowing */
+  ['#drip1','#drip2'].forEach(function(sel){
+    var path=document.querySelector(sel);
+    var len=path.getTotalLength();
+    path.style.strokeDasharray=len;
+    path.style.strokeDashoffset=len;
+    gsap.to(path,{
+      strokeDashoffset:0,duration:1.6,ease:'power2.inOut',
+      scrollTrigger:{trigger:path,start:'top 90%'}
+    });
+  });
+
+  /* Season dial — continuous slow rotation + scroll-linked acceleration */
+  gsap.to('#dial-needle',{
+    rotation:360,transformOrigin:'200px 200px',duration:60,ease:'none',repeat:-1
+  });
+  gsap.to('#dial-needle',{
+    rotation:'+=90',transformOrigin:'200px 200px',ease:'none',
+    scrollTrigger:{trigger:'.cycle',start:'top bottom',end:'bottom top',scrub:1}
+  });
+  gsap.to('#mini-needle',{
+    rotation:'+=340',transformOrigin:'50px 50px',ease:'none',repeat:-1,duration:70
+  });
+
+  /* Magnetic pill buttons */
+  document.querySelectorAll('.btn-solid').forEach(function(btn){
+    btn.addEventListener('mousemove',function(e){
+      var r=btn.getBoundingClientRect();
+      var x=(e.clientX-r.left-r.width/2)*.25;
+      var y=(e.clientY-r.top-r.height/2)*.35;
+      gsap.to(btn,{x:x,y:y,duration:.4,ease:'power2.out'});
+    });
+    btn.addEventListener('mouseleave',function(){
+      gsap.to(btn,{x:0,y:0,duration:.5,ease:'elastic.out(1,0.4)'});
+    });
+  });
+}
+</script>
+</body>
+</html>
